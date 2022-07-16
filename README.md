@@ -10,7 +10,7 @@ O To.do é um projeto que tem o objetivo de criar, alterar e excluir itens de um
 
 ## :computer: Projeto
 
-Acesse o projeto clicando [aqui](https://letmeask-ten-steel.vercel.app/). :+1:
+Acesse o projeto clicando [aqui](https://to-do-iota-five.vercel.app/). :+1:
 
 ## 🚀 Tecnologias
 
