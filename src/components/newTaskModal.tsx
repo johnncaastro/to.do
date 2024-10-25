@@ -1,25 +1,19 @@
 import { FormEvent, useState } from "react"
 import * as Dialog from "@radix-ui/react-dialog"
 import { X } from "lucide-react"
-
-interface taskItemInput {
-  id: number
-  name: string
-}
+import { Input } from "./input"
 
 export function NewTaskModal() {
-  const [taskItemsInput, setTaskItemsInput] = useState<taskItemInput[]>([
-    { id: Math.random(), name: "" }
-  ])
+  const [taskItemsInput, setTaskItemsInput] = useState([""])
 
   function handleNewTaskItemInput() {
-    setTaskItemsInput((state) => [ ...state, { id: Math.random(), name: "" } ])
+    setTaskItemsInput((state) => [ ...state, "" ])
   }
 
-  function setTaskItemInputValue(position: number, field: string, value: string) {
+  function setTaskItemInputValue(position: number, value: string) {
     const updatedTaskItems = taskItemsInput.map((taskItem, index) => {
       if (index === position) {
-        return { ...taskItem, [field]: value }
+        return value
       }
 
       return taskItem
@@ -31,7 +25,7 @@ export function NewTaskModal() {
   function handleCreateNewTask(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
 
-    const formData = new FormData(event?.currentTarget)
+    const formData = new FormData(event.currentTarget)
     const title = formData.get('title')
 
     console.log({
@@ -56,18 +50,7 @@ export function NewTaskModal() {
           </Dialog.Close>
         </div>
         <form onSubmit={handleCreateNewTask} className="flex flex-col">
-          <label
-            htmlFor="title"
-            className="text-gray-400 text-sm mb-1"
-          >
-            Título
-          </label>
-          <input
-            type="text"
-            id="title"
-            name="title"
-            className="bg-blue-500 rounded-md px-2 py-1"
-          />
+          <Input label="Título" name="title" />
 
           <button
             type="button"
@@ -77,19 +60,21 @@ export function NewTaskModal() {
             + Novo item
           </button>
 
-          {taskItemsInput.map((taskItem, index) => (
-            <input
-              type="text"
-              key={taskItem.id}
-              value={taskItem.name}
-              onChange={e => setTaskItemInputValue(index, 'name', e.target.value)}
-              className="bg-blue-500 rounded-md px-2 py-1 mb-4"
-            />
-          ))}
+          <div className="space-y-4">
+            {taskItemsInput.map((taskItem, index) => (
+              <Input
+                label={`Item ${index + 1}`}
+                name={`item-${index + 1}`}
+                key={index}
+                value={taskItem}
+                onChange={e => setTaskItemInputValue(index, e.target.value)}
+              />
+            ))}
+          </div>
 
           <button
             type="submit"
-            className="flex items-center justify-center bg-yellow-300 text-blue-700 font-semibold p-2 mt-4 rounded-3xl hover:bg-blue-300 hover:text-white transition-colors duration-200"
+            className="flex items-center justify-center bg-yellow-300 text-blue-700 font-semibold p-2 mt-8 rounded-3xl hover:bg-blue-300 hover:text-white transition-colors duration-200"
           >
             Criar task
           </button>

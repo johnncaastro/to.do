@@ -78,14 +78,14 @@ export function App() {
 
             <div className="flex items-center gap-2">
               <Checkbox.Root
-                id="item-1" 
+                id="item-task-1" 
                 className="bg-white w-6 h-6 flex items-center justify-center rounded-md p-2 hover:bg-blue-700 transition-colors duration-200"
               >
                 <Checkbox.Indicator>
                   <Check className="w-5 h-5 text-blue-300" />
                 </Checkbox.Indicator>
               </Checkbox.Root>
-              <label htmlFor="item-1">
+              <label htmlFor="item-task-1">
                 Arroz
               </label>
               <button
@@ -102,14 +102,14 @@ export function App() {
 
             <div className="flex items-center gap-2">
               <Checkbox.Root
-                id="item-2"
+                id="item-task-2"
                 className="bg-white w-6 h-6 flex items-center justify-center rounded-md p-2 hover:bg-blue-700 transition-colors duration-200"
               >
                 <Checkbox.Indicator>
                   <Check className="w-5 h-5 text-blue-300" />
                 </Checkbox.Indicator>
               </Checkbox.Root>
-              <label htmlFor="item-2">
+              <label htmlFor="item-task-2">
                 Caderno
               </label>
               <button
@@ -130,7 +130,7 @@ export function App() {
 
             <div className="group flex items-center gap-2">
               <Checkbox.Root
-                id="item-3"
+                id="item-task-3"
                 checked={isChecked}
                 onCheckedChange={() => setIsChecked((state) => !state)}
                 className="bg-white w-6 h-6 flex items-center justify-center rounded-md p-2 hover:bg-blue-700 transition-colors duration-200"
@@ -139,7 +139,7 @@ export function App() {
                   <Check className="w-5 h-5 text-blue-300" />
                 </Checkbox.Indicator>
               </Checkbox.Root>
-              <label htmlFor="item-3" className={`${isChecked ? "line-through" : ""}`}>
+              <label htmlFor="item-task-3" className={`${isChecked ? "line-through" : ""}`}>
                 Supervisor
               </label>
               <button
