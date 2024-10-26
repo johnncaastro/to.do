@@ -4,18 +4,8 @@ import * as Dialog from "@radix-ui/react-dialog"
 import { NewTaskModal } from "./components/newTaskModal"
 import { Check, Plus, Search, SlidersHorizontal, Trash2 } from "lucide-react"
 
-interface Task {
-  id: number
-  title: string
-  tasks: Array<{
-    name: string
-    finished: boolean
-  }>
-}
-
 export function App() {
   const [isChecked, setIsChecked] = useState(false)
-  const [tasks, setTasks] = useState<Task[]>([])
 
   return (
     <>
