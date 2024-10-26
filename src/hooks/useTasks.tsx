@@ -1,4 +1,5 @@
-import { createContext, ReactNode, useContext, useState } from "react";
+import { createContext, ReactNode, useContext, useEffect, useState } from "react";
+import { api } from "../services/api";
 
 interface Task {
   id: number
@@ -25,6 +26,17 @@ export const TasksContext = createContext<TasksContextData>({} as TasksContextDa
 
 export function TasksProvider({ children }: TasksProviderProps) {
   const [tasks, setTasks] = useState<Task[]>([]);
+
+  async function loadTasks() {
+    const response = await api.get('/tasks')
+    const data = await response.data
+
+    setTasks(data)
+  }
+
+  useEffect(() => {
+    loadTasks()
+  }, [])
 
   function createNewTask(taskInput: string) {
     if(!taskInput || taskInput.trim() === '') {
