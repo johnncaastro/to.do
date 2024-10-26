@@ -3,7 +3,7 @@ import { createContext, ReactNode, useContext, useState } from "react";
 interface Task {
   id: number
   title: string
-  tasks: Array<{
+  items: Array<{
     name: string
     isComplete: boolean
   }>

@@ -1,0 +1,32 @@
+{
+  "tasks": [
+    {
+      "id": 1,
+      "title": "Mercado",
+      "items": [
+        {
+          "name": "arroz",
+          "isComplete": false
+        },
+        {
+          "name": "feijão",
+          "isComplete": false
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Atividades de casa",
+      "items": [
+        {
+          "name": "organizar o quarto",
+          "isComplete": false
+        },
+        {
+          "name": "varrer a casa",
+          "isComplete": false
+        }
+      ]
+    }
+  ]
+}
