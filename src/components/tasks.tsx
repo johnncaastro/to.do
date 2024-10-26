@@ -3,7 +3,7 @@ import { useTasks } from "../hooks/useTasks"
 import { Check, Trash2 } from "lucide-react"
 
 export function Tasks() {
-  const { tasks } = useTasks()
+  const { tasks, toggleTaskItemCompleted } = useTasks()
 
   return (
     <div className="space-y-4">
@@ -15,12 +15,12 @@ export function Tasks() {
             {task.title}
           </h2>
 
-          {task.items.map(item => (
+          {task.items.map((item, index) => (
             <div key={item.name} className="group flex items-center gap-2 mb-4">
               <Checkbox.Root
                 id={item.name}
                 checked={item.isComplete}
-                onCheckedChange={() => {}}
+                onCheckedChange={() => toggleTaskItemCompleted(task.id, index)}
                 className="bg-white w-6 h-6 flex items-center justify-center rounded-md p-2 hover:bg-blue-700 transition-colors duration-200"
               >
                 <Checkbox.Indicator>

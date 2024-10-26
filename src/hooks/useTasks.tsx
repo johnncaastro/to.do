@@ -14,7 +14,7 @@ interface TasksContextData {
   tasks: Task[];
   createNewTask(taskInput: string): void;
   editTask(nameTaskEdittedInput: string, idTaskEditted: number): void;
-  toggleTaskCompleted(id: number): void;
+  toggleTaskItemCompleted(taskId: number, itemPosition: number): void;
   removeTask(id: number): void;
 }
 
@@ -67,13 +67,27 @@ export function TasksProvider({ children }: TasksProviderProps) {
     setTasks(tasksFiltered);
   }
 
-  function toggleTaskCompleted(id: number) {
-    /*const newTasks = tasks.map(task => task.id === id ? {
-      ...task,
-      isComplete: !task.isComplete
-    } : task);
+  function toggleTaskItemCompleted(taskId: number, itemPosition: number) {
+    const currentTask = tasks.filter(task => task.id === taskId)
+    const newTaskItems = currentTask.map(task => (
+      task.items.map((item, index) => {
+        if(index === itemPosition) {
+          return { ...item, isComplete: !item.isComplete }
+        }
 
-    setTasks(newTasks);*/
+        return item
+      })
+    ))
+
+    const newTasks = tasks.map(task => {
+      if(task.id === taskId) {
+        return { ...task, items: newTaskItems[0] }
+      }
+
+      return task
+    })
+
+    setTasks(newTasks)
   }
 
   return (
@@ -81,7 +95,7 @@ export function TasksProvider({ children }: TasksProviderProps) {
       tasks,
       createNewTask,
       editTask,
-      toggleTaskCompleted,
+      toggleTaskItemCompleted,
       removeTask }}
     >
       {children}
