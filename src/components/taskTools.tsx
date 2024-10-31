@@ -2,6 +2,7 @@ import { NewTaskModal } from "./newTaskModal"
 import * as Dialog from '@radix-ui/react-dialog'
 import { useTasks } from "../hooks/useTasks";
 import { SlidersHorizontal, Search, Plus } from "lucide-react";
+import { SearchFormTask } from "./searchFormTask";
 
 export function TaskTools() {
   const { tasks } = useTasks()
@@ -20,15 +21,7 @@ export function TaskTools() {
         </div>
       </div>
       <div className="flex items-center justify-end gap-2">
-        <div 
-          className="flex flex-1 h-full max-w-md items-center justify-between bg-blue-500 px-2 py-1 rounded-md">
-          <input 
-            type="text" 
-            placeholder="Busque por tasks..." 
-            className="bg-transparent outline-none" 
-          />
-          <Search className="w-6 h-6" />
-        </div>
+        <SearchFormTask />
         <Dialog.Root>
           <Dialog.Trigger asChild>
             <button 
