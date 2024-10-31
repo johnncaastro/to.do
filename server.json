@@ -15,7 +15,7 @@
       ]
     },
     {
-      "id": "f17c",
+      "id": "c85e",
       "title": "Lista de desejos",
       "items": [
         {
@@ -23,11 +23,7 @@
           "isComplete": false
         },
         {
-          "name": "comprar um carro",
-          "isComplete": false
-        },
-        {
-          "name": "criar uma reserva de emergência",
+          "name": "criar reserva de emergência",
           "isComplete": false
         }
       ]
