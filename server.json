@@ -15,15 +15,19 @@
       ]
     },
     {
-      "id": 2,
-      "title": "Atividades de casa",
+      "id": "f17c",
+      "title": "Lista de desejos",
       "items": [
         {
-          "name": "organizar o quarto",
+          "name": "começar a investir",
           "isComplete": false
         },
         {
-          "name": "varrer a casa",
+          "name": "comprar um carro",
+          "isComplete": false
+        },
+        {
+          "name": "criar uma reserva de emergência",
           "isComplete": false
         }
       ]

@@ -10,9 +10,11 @@ interface Task {
   }>
 }
 
+type CreateNewTaskInputs = Omit<Task, 'id'>
+
 interface TasksContextData {
   tasks: Task[];
-  createNewTask(taskInput: string): void;
+  createNewTask(data: CreateNewTaskInputs): void;
   editTask(nameTaskEdittedInput: string, idTaskEditted: number): void;
   toggleTaskItemCompleted(taskId: number, itemPosition: number): void;
   removeTask(id: number): void;
@@ -38,12 +40,15 @@ export function TasksProvider({ children }: TasksProviderProps) {
     loadTasks()
   }, [])
 
-  function createNewTask(taskInput: string) {
-    if(!taskInput || taskInput.trim() === '') {
-      alert('Crie um nome para a task!');
+  async function createNewTask(data: CreateNewTaskInputs) {
+    const { title, items } = data
 
-      return;
-    }
+    const response = await api.post('tasks', {
+      title,
+      items
+    })
+
+    setTasks(state => [ response.data, ...state ])
   }
 
   function editTask(nameTaskEdittedInput: string, idTaskEdittedInput: number) {

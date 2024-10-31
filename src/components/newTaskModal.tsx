@@ -1,9 +1,11 @@
 import { FormEvent, useState } from "react"
 import * as Dialog from "@radix-ui/react-dialog"
-import { X } from "lucide-react"
+import { useTasks } from "../hooks/useTasks"
 import { Input } from "./input"
+import { X } from "lucide-react"
 
 export function NewTaskModal() {
+  const { createNewTask } = useTasks()
   const [taskItemsInput, setTaskItemsInput] = useState([""])
 
   function handleNewTaskItemInput() {
@@ -22,16 +24,40 @@ export function NewTaskModal() {
     setTaskItemsInput(updatedTaskItems)
   }
 
-  function handleCreateNewTask(event: FormEvent<HTMLFormElement>) {
+  function resetFormTaskItemsInputs() {
+    setTaskItemsInput([""])
+  }
+
+  async function handleCreateNewTask(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
 
     const formData = new FormData(event.currentTarget)
-    const title = formData.get('title')
+    const title = String(formData.get('title'))
 
-    console.log({
+    if(!title || title.trim() === '') {
+      alert('Crie um título para a task!');
+
+      return;
+    }
+
+    const taskItemsInputIsEmpty = taskItemsInput.some(item => item.trim() === '')
+
+    if(taskItemsInputIsEmpty) {
+      alert('O campo do item da task não pode estar em branco!')
+
+      return
+    }
+
+    const items = taskItemsInput.map(item => (
+      { name: item, isComplete: false }
+    ))
+
+    createNewTask({
       title,
-      taskItemsInput
+      items
     })
+
+    resetFormTaskItemsInputs()
   }
 
   return (

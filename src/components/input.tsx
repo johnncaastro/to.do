@@ -17,6 +17,7 @@ export function Input({ label, name, ...rest }: InputProps) {
       <input
         {...rest}
         id={name}
+        name={name}
         type="text"
         className="bg-blue-500 w-full rounded-md px-2 py-1"
       />
