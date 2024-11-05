@@ -1,5 +1,5 @@
-import { createContext, ReactNode, useContext, useEffect, useState } from "react";
-import { api } from "../services/api";
+import { createContext, ReactNode, useContext, useEffect, useState } from "react"
+import { api } from "../services/api"
 
 interface Task {
   id: number
@@ -13,27 +13,35 @@ interface Task {
 type CreateNewTaskInputs = Omit<Task, 'id'>
 
 interface TasksContextData {
-  tasks: Task[];
-  createNewTask(data: CreateNewTaskInputs): void;
-  editTask(nameTaskEdittedInput: string, idTaskEditted: number): void;
-  toggleTaskItemCompleted(taskId: number, itemPosition: number): void;
-  removeTask(id: number): void;
+  tasks: Task[]
+  filteredTasks: Task[]
+  loadTasks(query?: string): Promise<void>
+  createNewTask(data: CreateNewTaskInputs): void
+  editTask(nameTaskEdittedInput: string, idTaskEditted: number): void
+  toggleTaskItemCompleted(taskId: number, itemPosition: number): void
+  removeTask(id: number): void
 }
 
 interface TasksProviderProps {
-  children: ReactNode;
+  children: ReactNode
 }
 
 export const TasksContext = createContext<TasksContextData>({} as TasksContextData)
 
 export function TasksProvider({ children }: TasksProviderProps) {
-  const [tasks, setTasks] = useState<Task[]>([]);
+  const [tasks, setTasks] = useState<Task[]>([])
+  const [filteredTasks, setFilteredTasks] = useState<Task[]>([])
 
-  async function loadTasks() {
-    const response = await api.get('/tasks')
-    const data = await response.data
+  async function loadTasks(query?: string) {
+    if(query && query.trim() !== '') {
+      setFilteredTasks(tasks.filter(task => task.title.toLowerCase().includes(query.trim())))
 
-    setTasks(data)
+    } else {
+      const response = await api.get('/tasks')
+
+      setTasks(response.data)
+      setFilteredTasks([])
+    }
   }
 
   useEffect(() => {
@@ -98,6 +106,8 @@ export function TasksProvider({ children }: TasksProviderProps) {
   return (
     <TasksContext.Provider value={{ 
       tasks,
+      filteredTasks,
+      loadTasks,
       createNewTask,
       editTask,
       toggleTaskItemCompleted,
