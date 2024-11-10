@@ -1,10 +1,14 @@
-import { FormEvent, useState } from "react"
+import { Dispatch, FormEvent, SetStateAction, useState } from "react"
 import * as Dialog from "@radix-ui/react-dialog"
 import { useTasks } from "../hooks/useTasks"
 import { Input } from "./input"
 import { X } from "lucide-react"
 
-export function NewTaskModal() {
+interface NewTaskModalProps {
+  onCloseModal(): void
+}
+
+export function NewTaskModal({ onCloseModal }: NewTaskModalProps) {
   const { createNewTask } = useTasks()
   const [taskItemsInput, setTaskItemsInput] = useState([""])
 
@@ -58,6 +62,7 @@ export function NewTaskModal() {
     })
 
     resetFormTaskItemsInputs()
+    onCloseModal()
   }
 
   return (

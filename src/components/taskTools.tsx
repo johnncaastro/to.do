@@ -1,11 +1,17 @@
-import { NewTaskModal } from "./newTaskModal"
+import { useState } from "react";
 import * as Dialog from '@radix-ui/react-dialog'
 import { useTasks } from "../hooks/useTasks";
-import { SlidersHorizontal, Search, Plus } from "lucide-react";
+import { NewTaskModal } from "./newTaskModal"
 import { SearchFormTask } from "./searchFormTask";
+import { SlidersHorizontal, Plus } from "lucide-react";
 
 export function TaskTools() {
   const { tasks } = useTasks()
+  const [isOpenModal, setIsOpenModal] = useState(false)
+
+  function closeModal() {
+    setIsOpenModal(false)
+  }
 
   return (
     <div className="grid grid-cols-2 h-10 mb-6">
@@ -22,7 +28,10 @@ export function TaskTools() {
       </div>
       <div className="flex items-center justify-end gap-2">
         <SearchFormTask />
-        <Dialog.Root>
+        <Dialog.Root
+          open={isOpenModal}
+          onOpenChange={() => setIsOpenModal(state => !state)}
+        >
           <Dialog.Trigger asChild>
             <button 
               type="button" 
@@ -32,7 +41,7 @@ export function TaskTools() {
               Nova task
             </button>
           </Dialog.Trigger>
-          <NewTaskModal />
+          <NewTaskModal onCloseModal={closeModal} />
         </Dialog.Root>
       </div>
     </div>
