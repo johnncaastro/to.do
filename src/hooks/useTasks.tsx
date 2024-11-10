@@ -8,6 +8,7 @@ interface Task {
     name: string
     isComplete: boolean
   }>
+  createdAt: number
 }
 
 type CreateNewTaskInputs = Omit<Task, 'id'>
@@ -37,7 +38,12 @@ export function TasksProvider({ children }: TasksProviderProps) {
       setFilteredTasks(tasks.filter(task => task.title.toLowerCase().includes(query.trim())))
 
     } else {
-      const response = await api.get('/tasks')
+      const response = await api.get('/tasks', {
+        params: {
+          _sort: 'createdAt',
+          _order: 'desc',
+        }
+      })
 
       setTasks(response.data)
       setFilteredTasks([])
@@ -49,11 +55,12 @@ export function TasksProvider({ children }: TasksProviderProps) {
   }, [])
 
   async function createNewTask(data: CreateNewTaskInputs) {
-    const { title, items } = data
+    const { title, items, createdAt } = data
 
     const response = await api.post('tasks', {
       title,
-      items
+      items,
+      createdAt,
     })
 
     setTasks(state => [ response.data, ...state ])

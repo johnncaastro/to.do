@@ -58,7 +58,8 @@ export function NewTaskModal({ onCloseModal }: NewTaskModalProps) {
 
     createNewTask({
       title,
-      items
+      items,
+      createdAt: Date.now()
     })
 
     resetFormTaskItemsInputs()
