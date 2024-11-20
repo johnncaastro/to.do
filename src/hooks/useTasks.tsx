@@ -38,7 +38,7 @@ export function TasksProvider({ children }: TasksProviderProps) {
       setFilteredTasks(tasks.filter(task => task.title.toLowerCase().includes(query.trim())))
 
     } else {
-      const response = await api.get('/tasks', {
+      const response = await api.get('tasks', {
         params: {
           _sort: 'createdAt',
           _order: 'desc',
@@ -81,10 +81,21 @@ export function TasksProvider({ children }: TasksProviderProps) {
     setTasks(newTasks);
   }
 
-  function removeTask(id: number) {
-    const tasksFiltered = tasks.filter(task => task.id !== id)
+  async function removeTask(id: number) {
+    await api.delete(`tasks/${id}`)
 
-    setTasks(tasksFiltered);
+    const tasksWithoutTaskRemoved = tasks.filter(task => task.id !== id)
+
+    setTasks(tasksWithoutTaskRemoved);
+
+    const taskExistsInTheFilteredTasks = filteredTasks.find(task => task.id === id)
+
+    if(taskExistsInTheFilteredTasks !== undefined) {
+      const filteredTasksWithoutTaskRemoved = filteredTasks.filter(task => {
+        return task.id !== id
+      })
+      setFilteredTasks(filteredTasksWithoutTaskRemoved)
+    }
   }
 
   function toggleTaskItemCompleted(taskId: number, itemPosition: number) {

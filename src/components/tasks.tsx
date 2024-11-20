@@ -4,7 +4,7 @@ import { useTasks } from "../hooks/useTasks"
 import { Check, Ellipsis } from "lucide-react"
 
 export function Tasks() {
-  const { tasks, filteredTasks, toggleTaskItemCompleted } = useTasks()
+  const { tasks, filteredTasks, toggleTaskItemCompleted, removeTask } = useTasks()
 
   return (
     <div className="space-y-4">
@@ -42,6 +42,7 @@ export function Tasks() {
                     <DropdownMenu.Item className="outline-none">
                       <button
                         type="button"
+                        onClick={() => removeTask(task.id)}
                         className="w-full px-2 rounded-sm hover:bg-red-300 hover:text-white transition-colors duration-200 text-center"
                       >
                         Excluir
@@ -104,6 +105,7 @@ export function Tasks() {
                     <DropdownMenu.Item className="outline-none">
                       <button
                         type="button"
+                        onClick={() => removeTask(task.id)}
                         className="w-full px-2 rounded-sm hover:bg-red-300 hover:text-white transition-colors duration-200 text-center"
                       >
                         Excluir

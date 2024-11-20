@@ -1,53 +1,19 @@
 {
   "tasks": [
     {
-      "id": "4863",
-      "title": "atividades de casa",
+      "id": "376e",
+      "title": "organizar a casa",
       "items": [
         {
-          "name": "organizar o quarto",
+          "name": "varrer",
           "isComplete": false
         },
         {
-          "name": "varrer a casa",
-          "isComplete": false
-        },
-        {
-          "name": "lavar o banheiro",
+          "name": "passar pano",
           "isComplete": false
         }
       ],
-      "createdAt": 1731240907644
-    },
-    {
-      "id": "1230",
-      "title": "mercado",
-      "items": [
-        {
-          "name": "arroz",
-          "isComplete": false
-        },
-        {
-          "name": "feijão",
-          "isComplete": false
-        }
-      ],
-      "createdAt": 1731240923479
-    },
-    {
-      "id": "7b7f",
-      "title": "inversor",
-      "items": [
-        {
-          "name": "ligar",
-          "isComplete": false
-        },
-        {
-          "name": "desligar",
-          "isComplete": false
-        }
-      ],
-      "createdAt": 1731241241750
+      "createdAt": 1732070872302
     }
   ]
 }
