@@ -17,10 +17,10 @@ interface TasksContextData {
   tasks: Task[]
   filteredTasks: Task[]
   loadTasks(query?: string): Promise<void>
-  createNewTask(data: CreateNewTaskInputs): void
+  createNewTask(data: CreateNewTaskInputs): Promise<void>
   editTask(nameTaskEdittedInput: string, idTaskEditted: number): void
-  toggleTaskItemCompleted(taskId: number, itemPosition: number): void
-  removeTask(id: number): void
+  changeIsCompleteFieldTaskItem(taskId: number, taskItemPosition: number): Promise<void>
+  removeTask(id: number): Promise<void>
 }
 
 interface TasksProviderProps {
@@ -98,27 +98,45 @@ export function TasksProvider({ children }: TasksProviderProps) {
     }
   }
 
-  function toggleTaskItemCompleted(taskId: number, itemPosition: number) {
-    const currentTask = tasks.filter(task => task.id === taskId)
-    const newTaskItems = currentTask.map(task => (
-      task.items.map((item, index) => {
-        if(index === itemPosition) {
-          return { ...item, isComplete: !item.isComplete }
-        }
+  async function changeIsCompleteFieldTaskItem(taskId: number, taskItemPosition: number) {
+    const selectedTask = tasks.filter(task => task.id === taskId)
+    const taskItemsWithUpdatedIsCompleteField = selectedTask[0].items.map((item, index) => {
+      if(index === taskItemPosition) {
+        return { ...item, isComplete: !item.isComplete }
+      }
 
-        return item
-      })
-    ))
+      return item
+    })
 
-    const newTasks = tasks.map(task => {
+    const taskWithUpdatedIsCompleteField = selectedTask.map(task => {
+      return { ...task, items: taskItemsWithUpdatedIsCompleteField }
+    })
+
+    await api.put(`tasks/${taskId}`, taskWithUpdatedIsCompleteField[0])
+
+    const updatedTasks = tasks.map(task => {
       if(task.id === taskId) {
-        return { ...task, items: newTaskItems[0] }
+        return taskWithUpdatedIsCompleteField[0]
       }
 
       return task
     })
 
-    setTasks(newTasks)
+    setTasks(updatedTasks)
+
+    const selectedTaskInTheFilteredTasks = filteredTasks.find(task => task.id === taskId)
+
+    if(selectedTaskInTheFilteredTasks !== undefined) {
+      const filteredTasksWithUpdatedIsCompleteField = filteredTasks.map(task => {
+        if(task.id === taskId) {
+          return taskWithUpdatedIsCompleteField[0]
+        }
+  
+        return task
+      })
+
+      setFilteredTasks(filteredTasksWithUpdatedIsCompleteField)
+    }
   }
 
   return (
@@ -128,7 +146,7 @@ export function TasksProvider({ children }: TasksProviderProps) {
       loadTasks,
       createNewTask,
       editTask,
-      toggleTaskItemCompleted,
+      changeIsCompleteFieldTaskItem,
       removeTask }}
     >
       {children}

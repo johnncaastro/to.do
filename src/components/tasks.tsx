@@ -4,7 +4,12 @@ import { useTasks } from "../hooks/useTasks"
 import { Check, Ellipsis } from "lucide-react"
 
 export function Tasks() {
-  const { tasks, filteredTasks, toggleTaskItemCompleted, removeTask } = useTasks()
+  const {
+    tasks,
+    filteredTasks,
+    changeIsCompleteFieldTaskItem,
+    removeTask
+  } = useTasks()
 
   return (
     <div className="space-y-4">
@@ -57,7 +62,7 @@ export function Tasks() {
                 <Checkbox.Root
                   id={item.name}
                   checked={item.isComplete}
-                  onCheckedChange={() => toggleTaskItemCompleted(task.id, index)}
+                  onCheckedChange={() => changeIsCompleteFieldTaskItem(task.id, index)}
                   className="bg-white w-6 h-6 flex items-center justify-center rounded-md p-2 hover:bg-blue-700 transition-colors duration-200"
                 >
                   <Checkbox.Indicator>
@@ -121,7 +126,7 @@ export function Tasks() {
                 <Checkbox.Root
                   id={item.name}
                   checked={item.isComplete}
-                  onCheckedChange={() => toggleTaskItemCompleted(task.id, index)}
+                  onCheckedChange={() => changeIsCompleteFieldTaskItem(task.id, index)}
                   className="bg-white w-6 h-6 flex items-center justify-center rounded-md p-2 hover:bg-blue-700 transition-colors duration-200"
                 >
                   <Checkbox.Indicator>

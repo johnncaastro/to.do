@@ -1,19 +1,42 @@
 {
   "tasks": [
     {
-      "id": "376e",
-      "title": "organizar a casa",
+      "id": "ea50",
+      "title": "atividades de casa",
       "items": [
         {
-          "name": "varrer",
+          "name": "arrumar quarto",
           "isComplete": false
         },
         {
-          "name": "passar pano",
+          "name": "varrer a casa",
           "isComplete": false
+        },
+        {
+          "name": "limpar móveis",
+          "isComplete": true
         }
       ],
-      "createdAt": 1732070872302
+      "createdAt": 1732153107639
+    },
+    {
+      "id": "0fb3",
+      "title": "lista de compras",
+      "items": [
+        {
+          "name": "arroz",
+          "isComplete": false
+        },
+        {
+          "name": "feijão",
+          "isComplete": false
+        },
+        {
+          "name": "macarrão",
+          "isComplete": true
+        }
+      ],
+      "createdAt": 1732153135107
     }
   ]
 }
