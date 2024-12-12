@@ -2,13 +2,14 @@ import { createContext, ReactNode, useContext, useEffect, useState } from "react
 import { api } from "../services/api"
 
 interface Task {
-  id: number
+  id: string
   title: string
   items: Array<{
+    id: number
     name: string
-    isComplete: boolean
+    is_complete: boolean
   }>
-  createdAt: number
+  created_at: number
 }
 
 type CreateNewTaskInputs = Omit<Task, 'id'>
@@ -38,12 +39,9 @@ export function TasksProvider({ children }: TasksProviderProps) {
       setFilteredTasks(tasks.filter(task => task.title.toLowerCase().includes(query.trim())))
 
     } else {
-      const response = await api.get('tasks', {
-        params: {
-          _sort: 'createdAt',
-          _order: 'desc',
-        }
-      })
+      const response = await api.get('/tasks')
+
+      console.log(response)
 
       setTasks(response.data)
       setFilteredTasks([])
@@ -54,90 +52,90 @@ export function TasksProvider({ children }: TasksProviderProps) {
     loadTasks()
   }, [])
 
-  async function createNewTask(data: CreateNewTaskInputs) {
-    const { title, items, createdAt } = data
+async function createNewTask(data: CreateNewTaskInputs) {
+  // const { title, items, createdAt } = data
 
-    const response = await api.post('tasks', {
-      title,
-      items,
-      createdAt,
-    })
+  // const response = await api.post('tasks', {
+  //   title,
+  //   items,
+  //   createdAt,
+  // })
 
-    setTasks(state => [ response.data, ...state ])
-  }
+  // setTasks(state => [ response.data, ...state ])
+}
 
-  function editTask(nameTaskEdittedInput: string, idTaskEdittedInput: number) {
-    if(!nameTaskEdittedInput || nameTaskEdittedInput.trim() === '') {
-      alert('A task precisa ter um nome!')
+function editTask(nameTaskEdittedInput: string, idTaskEdittedInput: number) {
+  // if(!nameTaskEdittedInput || nameTaskEdittedInput.trim() === '') {
+  //   alert('A task precisa ter um nome!')
 
-      return;
-    }
+  //   return;
+  // }
 
-    const newTasks = tasks.map(task => task.id === idTaskEdittedInput ? {
-      ...task,
-      name: nameTaskEdittedInput,
-    }: task);
+  // const newTasks = tasks.map(task => task.id === idTaskEdittedInput ? {
+  //   ...task,
+  //   name: nameTaskEdittedInput,
+  // }: task);
 
-    setTasks(newTasks);
-  }
+  // setTasks(newTasks);
+}
 
-  async function removeTask(id: number) {
-    await api.delete(`tasks/${id}`)
+async function removeTask(id: number) {
+  // await api.delete(`tasks/${id}`)
 
-    const tasksWithoutTaskRemoved = tasks.filter(task => task.id !== id)
+  // const tasksWithoutTaskRemoved = tasks.filter(task => task.id !== id)
 
-    setTasks(tasksWithoutTaskRemoved);
+  // setTasks(tasksWithoutTaskRemoved);
 
-    const taskExistsInTheFilteredTasks = filteredTasks.find(task => task.id === id)
+  // const taskExistsInTheFilteredTasks = filteredTasks.find(task => task.id === id)
 
-    if(taskExistsInTheFilteredTasks !== undefined) {
-      const filteredTasksWithoutTaskRemoved = filteredTasks.filter(task => {
-        return task.id !== id
-      })
-      setFilteredTasks(filteredTasksWithoutTaskRemoved)
-    }
-  }
+  // if(taskExistsInTheFilteredTasks !== undefined) {
+  //   const filteredTasksWithoutTaskRemoved = filteredTasks.filter(task => {
+  //     return task.id !== id
+  //   })
+  //   setFilteredTasks(filteredTasksWithoutTaskRemoved)
+  // }
+}
 
-  async function changeIsCompleteFieldTaskItem(taskId: number, taskItemPosition: number) {
-    const selectedTask = tasks.filter(task => task.id === taskId)
-    const taskItemsWithUpdatedIsCompleteField = selectedTask[0].items.map((item, index) => {
-      if(index === taskItemPosition) {
-        return { ...item, isComplete: !item.isComplete }
-      }
+async function changeIsCompleteFieldTaskItem(taskId: number, taskItemPosition: number) {
+  // const selectedTask = tasks.filter(task => task.id === taskId)
+  // const taskItemsWithUpdatedIsCompleteField = selectedTask[0].items.map((item, index) => {
+  //   if(index === taskItemPosition) {
+  //     return { ...item, isComplete: !item.isComplete }
+  //   }
 
-      return item
-    })
+  //   return item
+  // })
 
-    const taskWithUpdatedIsCompleteField = selectedTask.map(task => {
-      return { ...task, items: taskItemsWithUpdatedIsCompleteField }
-    })
+  // const taskWithUpdatedIsCompleteField = selectedTask.map(task => {
+  //   return { ...task, items: taskItemsWithUpdatedIsCompleteField }
+  // })
 
-    await api.put(`tasks/${taskId}`, taskWithUpdatedIsCompleteField[0])
+  // await api.put(`tasks/${taskId}`, taskWithUpdatedIsCompleteField[0])
 
-    const updatedTasks = tasks.map(task => {
-      if(task.id === taskId) {
-        return taskWithUpdatedIsCompleteField[0]
-      }
+  // const updatedTasks = tasks.map(task => {
+  //   if(task.id === taskId) {
+  //     return taskWithUpdatedIsCompleteField[0]
+  //   }
 
-      return task
-    })
+  //   return task
+  // })
 
-    setTasks(updatedTasks)
+  // setTasks(updatedTasks)
 
-    const selectedTaskInTheFilteredTasks = filteredTasks.find(task => task.id === taskId)
+  // const selectedTaskInTheFilteredTasks = filteredTasks.find(task => task.id === taskId)
 
-    if(selectedTaskInTheFilteredTasks !== undefined) {
-      const filteredTasksWithUpdatedIsCompleteField = filteredTasks.map(task => {
-        if(task.id === taskId) {
-          return taskWithUpdatedIsCompleteField[0]
-        }
+  // if(selectedTaskInTheFilteredTasks !== undefined) {
+  //   const filteredTasksWithUpdatedIsCompleteField = filteredTasks.map(task => {
+  //     if(task.id === taskId) {
+  //       return taskWithUpdatedIsCompleteField[0]
+  //     }
   
-        return task
-      })
+  //     return task
+  //   })
 
-      setFilteredTasks(filteredTasksWithUpdatedIsCompleteField)
-    }
-  }
+  //   setFilteredTasks(filteredTasksWithUpdatedIsCompleteField)
+  // }
+}
 
   return (
     <TasksContext.Provider value={{ 
