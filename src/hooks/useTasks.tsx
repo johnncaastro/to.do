@@ -82,20 +82,20 @@ function editTask(nameTaskEdittedInput: string, idTaskEdittedInput: number) {
 }
 
 async function removeTask(id: string) {
-  // await api.delete(`tasks/${id}`)
+  await api.delete(`/tasks/${id}`)
 
-  // const tasksWithoutTaskRemoved = tasks.filter(task => task.id !== id)
+  const tasksWithoutTaskRemoved = tasks.filter(task => task.id !== id)
 
-  // setTasks(tasksWithoutTaskRemoved);
+  setTasks(tasksWithoutTaskRemoved);
 
-  // const taskExistsInTheFilteredTasks = filteredTasks.find(task => task.id === id)
+  const removedTaskExistsInTheFilteredTasks = filteredTasks.find(task => task.id === id)
 
-  // if(taskExistsInTheFilteredTasks !== undefined) {
-  //   const filteredTasksWithoutTaskRemoved = filteredTasks.filter(task => {
-  //     return task.id !== id
-  //   })
-  //   setFilteredTasks(filteredTasksWithoutTaskRemoved)
-  // }
+  if(removedTaskExistsInTheFilteredTasks !== undefined) {
+    const filteredTasksWithoutTaskRemoved = filteredTasks.filter(task => {
+      return task.id !== id
+    })
+    setFilteredTasks(filteredTasksWithoutTaskRemoved)
+  }
 }
 
 async function changeIsCompleteFieldTaskItem(taskId: string, taskItemPosition: number) {
