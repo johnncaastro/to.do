@@ -1,4 +1,4 @@
-import { Dispatch, FormEvent, SetStateAction, useState } from "react"
+import { FormEvent, useState } from "react"
 import * as Dialog from "@radix-ui/react-dialog"
 import { useTasks } from "../hooks/useTasks"
 import { Input } from "./input"
@@ -53,13 +53,12 @@ export function NewTaskModal({ onCloseModal }: NewTaskModalProps) {
     }
 
     const items = taskItemsInput.map(item => (
-      { name: item, isComplete: false }
+      { name: item }
     ))
 
-    createNewTask({
+    await createNewTask({
       title,
-      items,
-      createdAt: Date.now()
+      items
     })
 
     resetFormTaskItemsInputs()

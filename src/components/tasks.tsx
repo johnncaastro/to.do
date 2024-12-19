@@ -61,7 +61,7 @@ export function Tasks() {
               <div key={item.name} className="flex items-center gap-2 mb-4">
                 <Checkbox.Root
                   id={item.name}
-                  checked={item.isComplete}
+                  checked={item.is_complete}
                   onCheckedChange={() => changeIsCompleteFieldTaskItem(task.id, index)}
                   className="bg-white w-6 h-6 flex items-center justify-center rounded-md p-2 hover:bg-blue-700 transition-colors duration-200"
                 >
@@ -69,7 +69,7 @@ export function Tasks() {
                     <Check className="w-5 h-5 text-blue-300" />
                   </Checkbox.Indicator>
                 </Checkbox.Root>
-                <label htmlFor={item.name} className={`${item.isComplete ? "line-through" : ""}`}>
+                <label htmlFor={item.name} className={`${item.is_complete ? "line-through" : ""}`}>
                   {item.name}
                 </label>
               </div>
@@ -125,7 +125,7 @@ export function Tasks() {
               <div key={item.name} className="flex items-center gap-2 mb-4">
                 <Checkbox.Root
                   id={item.name}
-                  checked={item.isComplete}
+                  checked={item.is_complete}
                   onCheckedChange={() => changeIsCompleteFieldTaskItem(task.id, index)}
                   className="bg-white w-6 h-6 flex items-center justify-center rounded-md p-2 hover:bg-blue-700 transition-colors duration-200"
                 >
@@ -133,7 +133,7 @@ export function Tasks() {
                     <Check className="w-5 h-5 text-blue-300" />
                   </Checkbox.Indicator>
                 </Checkbox.Root>
-                <label htmlFor={item.name} className={`${item.isComplete ? "line-through" : ""}`}>
+                <label htmlFor={item.name} className={`${item.is_complete ? "line-through" : ""}`}>
                   {item.name}
                 </label>
               </div>

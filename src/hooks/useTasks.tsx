@@ -12,7 +12,12 @@ interface Task {
   created_at: number
 }
 
-type CreateNewTaskInputs = Omit<Task, 'id'>
+interface CreateNewTaskInputs {
+  title: string
+  items: Array<{
+    name: string
+  }>
+}
 
 interface TasksContextData {
   tasks: Task[]
@@ -20,8 +25,8 @@ interface TasksContextData {
   loadTasks(query?: string): Promise<void>
   createNewTask(data: CreateNewTaskInputs): Promise<void>
   editTask(nameTaskEdittedInput: string, idTaskEditted: number): void
-  changeIsCompleteFieldTaskItem(taskId: number, taskItemPosition: number): Promise<void>
-  removeTask(id: number): Promise<void>
+  changeIsCompleteFieldTaskItem(taskId: string, taskItemPosition: number): Promise<void>
+  removeTask(id: string): Promise<void>
 }
 
 interface TasksProviderProps {
@@ -41,8 +46,6 @@ export function TasksProvider({ children }: TasksProviderProps) {
     } else {
       const response = await api.get('/tasks')
 
-      console.log(response)
-
       setTasks(response.data)
       setFilteredTasks([])
     }
@@ -53,15 +56,14 @@ export function TasksProvider({ children }: TasksProviderProps) {
   }, [])
 
 async function createNewTask(data: CreateNewTaskInputs) {
-  // const { title, items, createdAt } = data
+  const { title, items } = data
 
-  // const response = await api.post('tasks', {
-  //   title,
-  //   items,
-  //   createdAt,
-  // })
+  await api.post('/tasks', {
+    title,
+    items
+  })
 
-  // setTasks(state => [ response.data, ...state ])
+  await loadTasks()
 }
 
 function editTask(nameTaskEdittedInput: string, idTaskEdittedInput: number) {
@@ -79,7 +81,7 @@ function editTask(nameTaskEdittedInput: string, idTaskEdittedInput: number) {
   // setTasks(newTasks);
 }
 
-async function removeTask(id: number) {
+async function removeTask(id: string) {
   // await api.delete(`tasks/${id}`)
 
   // const tasksWithoutTaskRemoved = tasks.filter(task => task.id !== id)
@@ -96,7 +98,7 @@ async function removeTask(id: number) {
   // }
 }
 
-async function changeIsCompleteFieldTaskItem(taskId: number, taskItemPosition: number) {
+async function changeIsCompleteFieldTaskItem(taskId: string, taskItemPosition: number) {
   // const selectedTask = tasks.filter(task => task.id === taskId)
   // const taskItemsWithUpdatedIsCompleteField = selectedTask[0].items.map((item, index) => {
   //   if(index === taskItemPosition) {
