@@ -25,7 +25,7 @@ interface TasksContextData {
   loadTasks(query?: string): Promise<void>
   createNewTask(data: CreateNewTaskInputs): Promise<void>
   editTask(nameTaskEdittedInput: string, idTaskEditted: number): void
-  changeIsCompleteFieldTaskItem(taskId: string, taskItemPosition: number): Promise<void>
+  changeIsCompleteFieldTaskItem(taskId: number): Promise<void>
   removeTask(id: string): Promise<void>
 }
 
@@ -98,31 +98,10 @@ async function removeTask(id: string) {
   }
 }
 
-async function changeIsCompleteFieldTaskItem(taskId: string, taskItemPosition: number) {
-  // const selectedTask = tasks.filter(task => task.id === taskId)
-  // const taskItemsWithUpdatedIsCompleteField = selectedTask[0].items.map((item, index) => {
-  //   if(index === taskItemPosition) {
-  //     return { ...item, isComplete: !item.isComplete }
-  //   }
+async function changeIsCompleteFieldTaskItem(itemId: number) {
+  await api.put(`/tasks/item/completed/${itemId}`, {})
 
-  //   return item
-  // })
-
-  // const taskWithUpdatedIsCompleteField = selectedTask.map(task => {
-  //   return { ...task, items: taskItemsWithUpdatedIsCompleteField }
-  // })
-
-  // await api.put(`tasks/${taskId}`, taskWithUpdatedIsCompleteField[0])
-
-  // const updatedTasks = tasks.map(task => {
-  //   if(task.id === taskId) {
-  //     return taskWithUpdatedIsCompleteField[0]
-  //   }
-
-  //   return task
-  // })
-
-  // setTasks(updatedTasks)
+  await loadTasks()
 
   // const selectedTaskInTheFilteredTasks = filteredTasks.find(task => task.id === taskId)
 
@@ -136,7 +115,6 @@ async function changeIsCompleteFieldTaskItem(taskId: string, taskItemPosition: n
   //   })
 
   //   setFilteredTasks(filteredTasksWithUpdatedIsCompleteField)
-  // }
 }
 
   return (

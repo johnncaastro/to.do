@@ -57,12 +57,12 @@ export function Tasks() {
                 </DropdownMenu.Portal>
               </DropdownMenu.Root>
             </div>
-            {task.items.map((item, index) => (
+            {task.items.map(item => (
               <div key={item.name} className="flex items-center gap-2 mb-4">
                 <Checkbox.Root
                   id={item.name}
                   checked={item.is_complete}
-                  onCheckedChange={() => changeIsCompleteFieldTaskItem(task.id, index)}
+                  onCheckedChange={() => changeIsCompleteFieldTaskItem(item.id)}
                   className="bg-white w-6 h-6 flex items-center justify-center rounded-md p-2 hover:bg-blue-700 transition-colors duration-200"
                 >
                   <Checkbox.Indicator>
@@ -121,12 +121,12 @@ export function Tasks() {
               </DropdownMenu.Root>
             </div>
   
-            {task.items.map((item, index) => (
+            {task.items.map(item => (
               <div key={item.name} className="flex items-center gap-2 mb-4">
                 <Checkbox.Root
                   id={item.name}
                   checked={item.is_complete}
-                  onCheckedChange={() => changeIsCompleteFieldTaskItem(task.id, index)}
+                  onCheckedChange={() => changeIsCompleteFieldTaskItem(item.id)}
                   className="bg-white w-6 h-6 flex items-center justify-center rounded-md p-2 hover:bg-blue-700 transition-colors duration-200"
                 >
                   <Checkbox.Indicator>
