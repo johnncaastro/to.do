@@ -12,7 +12,7 @@ interface Task {
   created_at: number
 }
 
-interface CreateNewTaskInputs {
+interface TaskFormsInputs {
   title: string
   items: Array<{
     name: string
@@ -23,8 +23,8 @@ interface TasksContextData {
   tasks: Task[]
   filteredTasks: Task[]
   loadTasks(query?: string): Promise<void>
-  createNewTask(data: CreateNewTaskInputs): Promise<void>
-  editTask(nameTaskEdittedInput: string, idTaskEditted: number): void
+  createNewTask(data: TaskFormsInputs): Promise<void>
+  editTask(edittedTask: TaskFormsInputs): void
   changeIsCompleteFieldTaskItem(taskId: number): Promise<void>
   removeTask(id: string): Promise<void>
 }
@@ -55,7 +55,7 @@ export function TasksProvider({ children }: TasksProviderProps) {
     loadTasks()
   }, [])
 
-async function createNewTask(data: CreateNewTaskInputs) {
+async function createNewTask(data: TaskFormsInputs) {
   const { title, items } = data
 
   await api.post('/tasks', {
@@ -66,19 +66,8 @@ async function createNewTask(data: CreateNewTaskInputs) {
   await loadTasks()
 }
 
-function editTask(nameTaskEdittedInput: string, idTaskEdittedInput: number) {
-  // if(!nameTaskEdittedInput || nameTaskEdittedInput.trim() === '') {
-  //   alert('A task precisa ter um nome!')
-
-  //   return;
-  // }
-
-  // const newTasks = tasks.map(task => task.id === idTaskEdittedInput ? {
-  //   ...task,
-  //   name: nameTaskEdittedInput,
-  // }: task);
-
-  // setTasks(newTasks);
+function editTask(edittedTask: TaskFormsInputs) {
+  console.log(edittedTask)
 }
 
 async function removeTask(id: string) {
