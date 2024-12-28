@@ -24,8 +24,8 @@ interface TasksContextData {
   filteredTasks: Task[]
   loadTasks(query?: string): Promise<void>
   createNewTask(data: TaskFormsInputs): Promise<void>
-  editTask(edittedTask: TaskFormsInputs): void
-  changeIsCompleteFieldTaskItem(taskId: number): Promise<void>
+  // editTask(edittedTask: TaskFormsInputs): void
+  changeIsCompleteFieldTaskItem(taskId: string, itemId: number): Promise<void>
   removeTask(id: string): Promise<void>
 }
 
@@ -41,8 +41,9 @@ export function TasksProvider({ children }: TasksProviderProps) {
 
   async function loadTasks(query?: string) {
     if(query && query.trim() !== '') {
-      setFilteredTasks(tasks.filter(task => task.title.toLowerCase().includes(query.trim())))
+      const response = await api.get(`/tasks?search=${query}`)
 
+      setTasks(response.data)
     } else {
       const response = await api.get('/tasks')
 
@@ -66,9 +67,9 @@ async function createNewTask(data: TaskFormsInputs) {
   await loadTasks()
 }
 
-function editTask(edittedTask: TaskFormsInputs) {
-  console.log(edittedTask)
-}
+// function editTask(edittedTask: TaskFormsInputs) {
+//   console.log(edittedTask)
+// }
 
 async function removeTask(id: string) {
   await api.delete(`/tasks/${id}`)
@@ -76,34 +77,30 @@ async function removeTask(id: string) {
   const tasksWithoutTaskRemoved = tasks.filter(task => task.id !== id)
 
   setTasks(tasksWithoutTaskRemoved);
-
-  const removedTaskExistsInTheFilteredTasks = filteredTasks.find(task => task.id === id)
-
-  if(removedTaskExistsInTheFilteredTasks !== undefined) {
-    const filteredTasksWithoutTaskRemoved = filteredTasks.filter(task => {
-      return task.id !== id
-    })
-    setFilteredTasks(filteredTasksWithoutTaskRemoved)
-  }
 }
 
-async function changeIsCompleteFieldTaskItem(itemId: number) {
+async function changeIsCompleteFieldTaskItem(taskId: string, itemId: number) {
   await api.put(`/tasks/item/completed/${itemId}`, {})
 
-  await loadTasks()
+  const itemWithUpdatedIsCompleteField = tasks
+    .filter(task => task.id === taskId)
+    [0].items.map(item => {
+      if(item.id === itemId) {
+        return { ...item, is_complete: !item.is_complete }
+      } else {
+        return item
+      }
+    })
 
-  // const selectedTaskInTheFilteredTasks = filteredTasks.find(task => task.id === taskId)
+  const newTasks = tasks.map(task => {
+    if(task.id === taskId) {
+      return { ...task, items: itemWithUpdatedIsCompleteField }
+    } else {
+      return task
+    }
+  })
 
-  // if(selectedTaskInTheFilteredTasks !== undefined) {
-  //   const filteredTasksWithUpdatedIsCompleteField = filteredTasks.map(task => {
-  //     if(task.id === taskId) {
-  //       return taskWithUpdatedIsCompleteField[0]
-  //     }
-  
-  //     return task
-  //   })
-
-  //   setFilteredTasks(filteredTasksWithUpdatedIsCompleteField)
+  setTasks(newTasks)
 }
 
   return (
@@ -112,7 +109,7 @@ async function changeIsCompleteFieldTaskItem(itemId: number) {
       filteredTasks,
       loadTasks,
       createNewTask,
-      editTask,
+      // editTask,
       changeIsCompleteFieldTaskItem,
       removeTask }}
     >
