@@ -17,7 +17,7 @@ export function TaskTools() {
     <div className="grid grid-cols-2 h-10 mb-6">
       <div className="flex items-center gap-2">
         <button
-          type="button" 
+          type="button"
           className="w-max rounded-md p-2 hover:bg-blue-300 transition-colors duration-200"
         >
           <SlidersHorizontal className="w-6 h-6" />

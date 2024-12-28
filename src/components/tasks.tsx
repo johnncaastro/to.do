@@ -1,10 +1,7 @@
-import { useState } from "react"
 import * as Checkbox from "@radix-ui/react-checkbox"
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu"
-import * as Dialog from '@radix-ui/react-dialog'
 import { useTasks } from "../hooks/useTasks"
 import { Check, Ellipsis } from "lucide-react"
-import { EditTaskModal } from "./editTaskModal"
 
 export function Tasks() {
   const {
@@ -13,16 +10,6 @@ export function Tasks() {
     changeIsCompleteFieldTaskItem,
     removeTask
   } = useTasks()
-
-  const [isOpenEditTaskModal, setIsOpenEditTaskModal] = useState(false)
-
-  function handleOpenEditTaskModal() {
-    setIsOpenEditTaskModal(true)
-  }
-  
-  function closeEditTaskModal() {
-    setIsOpenEditTaskModal(false)
-  }
 
   return (
     <div className="space-y-4">
@@ -52,8 +39,6 @@ export function Tasks() {
                     <DropdownMenu.Item className="outline-none">
                     <button
                       type="button"
-                      onClick={handleOpenEditTaskModal}
-                      aria-hidden={false}
                       className="w-full px-2 rounded-sm hover:bg-blue-300 hover:text-white transition-colors duration-200 text-center"
                     >
                       Editar
@@ -117,8 +102,6 @@ export function Tasks() {
                     <DropdownMenu.Item className="outline-none">
                       <button
                         type="button"
-                        onClick={handleOpenEditTaskModal}
-                        aria-hidden={false}
                         className="w-full px-2 rounded-sm hover:bg-blue-300 hover:text-white transition-colors duration-200 text-center"
                       >
                         Editar
@@ -155,12 +138,6 @@ export function Tasks() {
                 </label>
               </div>
             ))}
-
-            <EditTaskModal
-              isOpenModal={isOpenEditTaskModal}
-              onCloseModal={closeEditTaskModal}
-              taskId={task.id}
-            />
           </div>
         ))
       )}
