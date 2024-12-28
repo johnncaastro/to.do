@@ -17,7 +17,7 @@ export function SearchFormTask() {
   return (
     <form
       onSubmit={handleSearchTask}
-      className="flex flex-1 h-full max-w-md items-center justify-between gap-2 bg-blue-500 px-2 py-1 rounded-md">
+      className="flex flex-1 h-full max-w-lg items-center justify-between gap-2 bg-blue-500 px-2 py-1 rounded-md">
       <input 
         type="text"
         name="search"

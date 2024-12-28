@@ -14,8 +14,8 @@ export function TaskTools() {
   }
 
   return (
-    <div className="grid grid-cols-2 h-10 mb-6">
-      <div className="flex items-center gap-2">
+    <div className="grid mobile:grid-rows-2 laptop:grid-rows-none laptop:grid-cols-2 h-10 mobile:mb-12 laptop:mb-6">
+      <div className="flex items-center gap-2 mobile:mb-8">
         <button
           type="button"
           className="w-max rounded-md p-2 hover:bg-blue-300 transition-colors duration-200"
@@ -26,7 +26,7 @@ export function TaskTools() {
           {`${tasks.length} ${tasks.length > 1 ? "tasks": "task"}`}
         </div>
       </div>
-      <div className="flex items-center justify-end gap-2">
+      <div className="flex items-center justify-end gap-2 mobile:h-10">
         <SearchFormTask />
         <Dialog.Root
           open={isOpenModal}

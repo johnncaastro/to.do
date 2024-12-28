@@ -3,6 +3,11 @@ module.exports = {
   content: ["./src/**/*.tsx"],
   theme: {
     extend: {
+      screens: {
+        'mobile': '350px',
+        'laptop': '640px',
+        'desktop': '1024px',
+      },
       fontFamily: {
         sans: 'Poppins, sans-serif',
       },
