@@ -12,6 +12,12 @@ interface Task {
   created_at: number
 }
 
+interface TaskItems {
+  id: number;
+  name: string;
+  is_complete: boolean;
+}
+
 interface TaskFormsInputs {
   title: string
   items: Array<{
@@ -20,8 +26,7 @@ interface TaskFormsInputs {
 }
 
 interface TasksContextData {
-  tasks: Task[]
-  filteredTasks: Task[]
+  tasks: Task[] | undefined
   loadTasks(query?: string): Promise<void>
   createNewTask(data: TaskFormsInputs): Promise<void>
   // editTask(edittedTask: TaskFormsInputs): void
@@ -36,9 +41,8 @@ interface TasksProviderProps {
 export const TasksContext = createContext<TasksContextData>({} as TasksContextData)
 
 export function TasksProvider({ children }: TasksProviderProps) {
-  const [tasks, setTasks] = useState<Task[]>([])
-  const [filteredTasks, setFilteredTasks] = useState<Task[]>([])
-
+  const [tasks, setTasks] = useState<Task[] | undefined>(undefined)
+  
   async function loadTasks(query?: string) {
     if(query && query.trim() !== '') {
       const response = await api.get(`/tasks?search=${query}`)
@@ -48,7 +52,6 @@ export function TasksProvider({ children }: TasksProviderProps) {
       const response = await api.get('/tasks')
 
       setTasks(response.data)
-      setFilteredTasks([])
     }
   }
 
@@ -74,7 +77,7 @@ async function createNewTask(data: TaskFormsInputs) {
 async function removeTask(id: string) {
   await api.delete(`/tasks/${id}`)
 
-  const tasksWithoutTaskRemoved = tasks.filter(task => task.id !== id)
+  const tasksWithoutTaskRemoved = tasks?.filter(task => task.id !== id)
 
   setTasks(tasksWithoutTaskRemoved);
 }
@@ -82,7 +85,10 @@ async function removeTask(id: string) {
 async function changeIsCompleteFieldTaskItem(taskId: string, itemId: number) {
   await api.put(`/tasks/item/completed/${itemId}`, {})
 
-  const itemWithUpdatedIsCompleteField = tasks
+  let itemWithUpdatedIsCompleteField: TaskItems[]
+
+  if(tasks !== undefined) {
+    itemWithUpdatedIsCompleteField = tasks
     .filter(task => task.id === taskId)
     [0].items.map(item => {
       if(item.id === itemId) {
@@ -91,8 +97,10 @@ async function changeIsCompleteFieldTaskItem(taskId: string, itemId: number) {
         return item
       }
     })
+  }
+  
 
-  const newTasks = tasks.map(task => {
+  const newTasks = tasks?.map(task => {
     if(task.id === taskId) {
       return { ...task, items: itemWithUpdatedIsCompleteField }
     } else {
@@ -106,7 +114,6 @@ async function changeIsCompleteFieldTaskItem(taskId: string, itemId: number) {
   return (
     <TasksContext.Provider value={{ 
       tasks,
-      filteredTasks,
       loadTasks,
       createNewTask,
       // editTask,

@@ -23,7 +23,9 @@ export function TaskTools() {
           <SlidersHorizontal className="w-6 h-6" />
         </button>
         <div className="bg-blue-500 rounded-full px-3 py-1">
-          {`${tasks.length} ${tasks.length > 1 ? "tasks": "task"}`}
+          {`${tasks?.length ?? 0} 
+            ${tasks !== undefined && tasks.length > 1 ? "tasks": "task"}`
+          }
         </div>
       </div>
       <div className="flex items-center justify-end gap-2 mobile:h-10">

@@ -10,12 +10,22 @@ export function Tasks() {
     removeTask
   } = useTasks()
 
-  if(tasks.length === 0) {
+  if(tasks === undefined) {
     return (
       <h2
-        className="capitalize font-semibold text-center text-3xl mt-8"
+        className="font-semibold text-center text-3xl mt-8"
       >
-        carregando tasks...
+        Carregando tasks...
+      </h2>
+    )
+  }
+
+  if(tasks?.length === 0) {
+    return (
+      <h2
+        className="font-semibold text-center text-3xl mt-8"
+      >
+        Você ainda não criou uma task...
       </h2>
     )
   }
