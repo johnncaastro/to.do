@@ -2,11 +2,11 @@
   To.do
 </h1>
 
-![dtmoney](https://github.com/johnncaastro/to.do/blob/main/.github/landing%20page%20to.do.png)
+![To.do](https://github.com/johnncaastro/to.do/blob/main/public/homepage-to.do.png)
 
 ## :page_with_curl: Sobre
 
-O To.do é um projeto que tem o objetivo de criar, alterar e excluir itens de uma lista, auxiliando o usuário a concluí-las seguindo uma ordem
+O To.do é um aplicativo de listagem de tarefas, que auxilia nos gerenciamento dos afazeres diários
 
 ## :computer: Projeto
 
@@ -18,9 +18,11 @@ Este projeto foi desenvolvido com as seguintes tecnologias:
 
 - [ReactJS](https://reactjs.org/)
 - [Typescript](https://www.typescriptlang.org/)
+- [Vite](https://vite.dev/)
+- [Radix UI](https://www.radix-ui.com/)
+- [Axios](https://axios-http.com/ptbr/)
 - [tailwindcss](https://tailwindcss.com/)
-- [Phosphor Icons](https://phosphoricons.com/)
-- [react-modal](https://www.npmjs.com/package/react-modal)
+- [Lucide-react](https://lucide.dev/)
 
 ## 👷 Instalação
 
@@ -44,5 +46,5 @@ Esse projeto está sob a licença MIT. Veja o arquivo [LICENSE](https://github.c
 
 ---
 
-Feito com ♥ por Johnn Castro :wave: [Entre em contato!](https://www.linkedin.com/in/jonathan-castro-alves/)
+Feito com ♥ por Johnn Castro :wave: [Entre em contato!](https://www.linkedin.com/in/johnncaastro/)
 
