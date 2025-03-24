@@ -1,4 +1,4 @@
-import { InputHTMLAttributes } from "react";
+import { InputHTMLAttributes } from 'react'
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string
@@ -7,11 +7,8 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 
 export function Input({ label, name, ...rest }: InputProps) {
   return (
-    <div className="w-full">
-      <label
-        htmlFor={name}
-        className="text-gray-400 text-sm mb-1"
-      >
+    <div className="w-full mt-2">
+      <label htmlFor={name} className="text-gray-400 text-sm mb-1">
         {label}
       </label>
       <input

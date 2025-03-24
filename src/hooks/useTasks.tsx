@@ -1,50 +1,52 @@
-import { createContext, ReactNode, useContext, useEffect, useState } from "react"
-import { api } from "../services/api"
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from 'react'
+import { api } from '../services/api'
+import { EditTaskModal } from '../components/editTaskModal'
 
 interface Task {
   id: string
   title: string
-  items: Array<{
-    id: number
-    name: string
-    is_complete: boolean
-  }>
   created_at: number
-}
-
-interface TaskItems {
-  id: number;
-  name: string;
-  is_complete: boolean;
+  is_complete: boolean
+  task_group: string
 }
 
 interface TaskFormsInputs {
   title: string
-  items: Array<{
-    name: string
-  }>
+  task_group: string
 }
 
 interface TasksContextData {
   tasks: Task[] | undefined
   loadTasks(query?: string): Promise<void>
   createNewTask(data: TaskFormsInputs): Promise<void>
-  // editTask(edittedTask: TaskFormsInputs): void
-  changeIsCompleteFieldTaskItem(taskId: string, itemId: number): Promise<void>
-  removeTask(id: string): Promise<void>
+  isOpenEditTaskModal: boolean
+  openEditTaskModal(): void
+  closeEditTaskModal(): void
+  editTask(edittedTask: TaskFormsInputs): void
+  updateIsCompletedTask(taskId: string): Promise<void>
+  removeTask(taskId: string): Promise<void>
 }
 
 interface TasksProviderProps {
   children: ReactNode
 }
 
-export const TasksContext = createContext<TasksContextData>({} as TasksContextData)
+export const TasksContext = createContext<TasksContextData>(
+  {} as TasksContextData,
+)
 
 export function TasksProvider({ children }: TasksProviderProps) {
   const [tasks, setTasks] = useState<Task[] | undefined>(undefined)
-  
+  const [isOpenEditTaskModal, setIsOpenEditTaskModal] = useState(false)
+
   async function loadTasks(query?: string) {
-    if(query && query.trim() !== '') {
+    if (query && query.trim() !== '') {
       const response = await api.get(`/tasks?search=${query}`)
 
       setTasks(response.data)
@@ -59,68 +61,71 @@ export function TasksProvider({ children }: TasksProviderProps) {
     loadTasks()
   }, [])
 
-async function createNewTask(data: TaskFormsInputs) {
-  const { title, items } = data
+  async function createNewTask(data: TaskFormsInputs) {
+    // eslint-disable-next-line camelcase
+    const { title, task_group } = data
 
-  await api.post('/tasks', {
-    title,
-    items
-  })
+    await api.post('/tasks', {
+      title,
+      // eslint-disable-next-line camelcase
+      task_group,
+    })
 
-  await loadTasks()
-}
+    await loadTasks()
+  }
 
-// function editTask(edittedTask: TaskFormsInputs) {
-//   console.log(edittedTask)
-// }
+  function openEditTaskModal() {
+    setIsOpenEditTaskModal(true)
+  }
 
-async function removeTask(id: string) {
-  await api.delete(`/tasks/${id}`)
+  function closeEditTaskModal() {
+    setIsOpenEditTaskModal(false)
+  }
 
-  const tasksWithoutTaskRemoved = tasks?.filter(task => task.id !== id)
+  function editTask(edittedTask: TaskFormsInputs) {
+    console.log(edittedTask)
+  }
 
-  setTasks(tasksWithoutTaskRemoved);
-}
+  async function removeTask(taskId: string) {
+    await api.delete(`/tasks/${taskId}`)
 
-async function changeIsCompleteFieldTaskItem(taskId: string, itemId: number) {
-  await api.put(`/tasks/item/completed/${itemId}`, {})
+    const tasksWithoutTaskRemoved = tasks?.filter((task) => task.id !== taskId)
 
-  let itemWithUpdatedIsCompleteField: TaskItems[]
+    setTasks(tasksWithoutTaskRemoved)
+  }
 
-  if(tasks !== undefined) {
-    itemWithUpdatedIsCompleteField = tasks
-    .filter(task => task.id === taskId)
-    [0].items.map(item => {
-      if(item.id === itemId) {
-        return { ...item, is_complete: !item.is_complete }
+  async function updateIsCompletedTask(taskId: string) {
+    await api.patch(`/tasks/${taskId}/completed`, {})
+
+    const updatedTaskIsCompleteField = tasks?.map((task) => {
+      if (task.id === taskId) {
+        return { ...task, is_complete: !task.is_complete }
       } else {
-        return item
+        return task
       }
     })
+
+    setTasks(updatedTaskIsCompleteField)
   }
-  
-
-  const newTasks = tasks?.map(task => {
-    if(task.id === taskId) {
-      return { ...task, items: itemWithUpdatedIsCompleteField }
-    } else {
-      return task
-    }
-  })
-
-  setTasks(newTasks)
-}
 
   return (
-    <TasksContext.Provider value={{ 
-      tasks,
-      loadTasks,
-      createNewTask,
-      // editTask,
-      changeIsCompleteFieldTaskItem,
-      removeTask }}
+    <TasksContext.Provider
+      value={{
+        tasks,
+        loadTasks,
+        createNewTask,
+        editTask,
+        updateIsCompletedTask,
+        removeTask,
+        isOpenEditTaskModal,
+        openEditTaskModal,
+        closeEditTaskModal,
+      }}
     >
       {children}
+      {isOpenEditTaskModal && (
+        <EditTaskModal onCloseModal={closeEditTaskModal} />
+      )}
     </TasksContext.Provider>
   )
 }

@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useState } from 'react'
 import * as Dialog from '@radix-ui/react-dialog'
-import { useTasks } from "../hooks/useTasks";
-import { NewTaskModal } from "./newTaskModal"
-import { SearchFormTask } from "./searchFormTask";
-import { SlidersHorizontal, Plus } from "lucide-react";
+import { useTasks } from '../hooks/useTasks'
+import { NewTaskModal } from './newTaskModal'
+import { SearchFormTask } from './searchFormTask'
+import { SlidersHorizontal, Plus } from 'lucide-react'
 
 export function TaskTools() {
   const { tasks } = useTasks()
@@ -24,19 +24,18 @@ export function TaskTools() {
         </button>
         <div className="bg-blue-500 rounded-full px-3 py-1">
           {`${tasks?.length ?? 0} 
-            ${tasks !== undefined && tasks.length > 1 ? "tasks": "task"}`
-          }
+            ${tasks !== undefined && tasks.length > 1 ? 'tasks' : 'task'}`}
         </div>
       </div>
       <div className="flex items-center justify-end gap-2 mobile:h-10">
         <SearchFormTask />
         <Dialog.Root
           open={isOpenModal}
-          onOpenChange={() => setIsOpenModal(state => !state)}
+          onOpenChange={() => setIsOpenModal((state) => !state)}
         >
           <Dialog.Trigger asChild>
-            <button 
-              type="button" 
+            <button
+              type="button"
               className="flex items-center gap-2 bg-yellow-300 text-blue-700 p-2 h-full rounded-md hover:bg-blue-300 hover:text-white transition-colors duration-200"
             >
               <Plus className="w-6 h-6" />
