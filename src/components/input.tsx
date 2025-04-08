@@ -1,23 +1,24 @@
-import { InputHTMLAttributes } from 'react'
+import { forwardRef, HTMLProps } from 'react'
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+interface InputProps extends HTMLProps<HTMLInputElement> {
   label: string
   name: string
 }
 
-export function Input({ label, name, ...rest }: InputProps) {
-  return (
-    <div className="w-full mt-2">
-      <label htmlFor={name} className="text-gray-400 text-sm mb-1">
-        {label}
-      </label>
-      <input
-        {...rest}
-        id={name}
-        name={name}
-        type="text"
-        className="bg-blue-500 w-full rounded-md px-2 py-1"
-      />
-    </div>
-  )
-}
+export const Input = forwardRef<HTMLInputElement, InputProps>(
+  function Input(props, ref) {
+    return (
+      <div className="w-full mt-2">
+        <label htmlFor={props.name} className="text-gray-400 text-sm mb-1">
+          {props.label}
+        </label>
+        <input
+          type="text"
+          className="bg-blue-500 w-full rounded-md px-2 py-1"
+          {...props}
+          ref={ref}
+        />
+      </div>
+    )
+  },
+)
