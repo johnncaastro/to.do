@@ -32,8 +32,6 @@ export function NewTaskModal({ onCloseModal }: NewTaskModalProps) {
   async function handleCreateNewTask(data: NewTaskForm) {
     const { title, task_group } = data
 
-    await new Promise((resolve) => setTimeout(resolve, 3000))
-
     await createNewTask({
       title,
       task_group,

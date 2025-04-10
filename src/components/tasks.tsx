@@ -62,7 +62,7 @@ export function Tasks() {
                   <DropdownMenu.Item className="outline-none">
                     <button
                       type="button"
-                      onClick={openEditTaskModal}
+                      onClick={() => openEditTaskModal(task.id)}
                       className="w-full px-2 rounded-sm hover:bg-blue-300 hover:text-white transition-colors duration-200 text-center"
                     >
                       Editar

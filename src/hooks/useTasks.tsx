@@ -26,9 +26,9 @@ interface TasksContextData {
   loadTasks(query?: string): Promise<void>
   createNewTask(data: TaskFormsInputs): Promise<void>
   isOpenEditTaskModal: boolean
-  openEditTaskModal(): void
+  openEditTaskModal(taskId: string): void
   closeEditTaskModal(): void
-  editTask(edittedTask: TaskFormsInputs): void
+  editTask(edittedTask: TaskFormsInputs, taskId: string): void
   updateIsCompletedTask(taskId: string): Promise<void>
   removeTask(taskId: string): Promise<void>
 }
@@ -44,6 +44,7 @@ export const TasksContext = createContext<TasksContextData>(
 export function TasksProvider({ children }: TasksProviderProps) {
   const [tasks, setTasks] = useState<Task[] | undefined>(undefined)
   const [isOpenEditTaskModal, setIsOpenEditTaskModal] = useState(false)
+  const [currentTaskId, setCurrentTaskId] = useState('')
 
   async function loadTasks(query?: string) {
     if (query && query.trim() !== '') {
@@ -74,7 +75,8 @@ export function TasksProvider({ children }: TasksProviderProps) {
     await loadTasks()
   }
 
-  function openEditTaskModal() {
+  function openEditTaskModal(taskId: string) {
+    setCurrentTaskId(taskId)
     setIsOpenEditTaskModal(true)
   }
 
@@ -82,8 +84,22 @@ export function TasksProvider({ children }: TasksProviderProps) {
     setIsOpenEditTaskModal(false)
   }
 
-  function editTask(edittedTask: TaskFormsInputs) {
-    console.log(edittedTask)
+  async function editTask(editedTask: TaskFormsInputs, taskId: string) {
+    await api.put(`/tasks/${taskId}`, editedTask)
+
+    const updateTasksWithEditedTask = tasks?.map((task) => {
+      if (task.id === taskId) {
+        return {
+          ...task,
+          title: editedTask.title,
+          task_group: editedTask.task_group,
+        }
+      } else {
+        return task
+      }
+    })
+
+    setTasks(updateTasksWithEditedTask)
   }
 
   async function removeTask(taskId: string) {
@@ -124,7 +140,10 @@ export function TasksProvider({ children }: TasksProviderProps) {
     >
       {children}
       {isOpenEditTaskModal && (
-        <EditTaskModal onCloseModal={closeEditTaskModal} />
+        <EditTaskModal
+          currentTaskId={currentTaskId}
+          onCloseModal={closeEditTaskModal}
+        />
       )}
     </TasksContext.Provider>
   )
