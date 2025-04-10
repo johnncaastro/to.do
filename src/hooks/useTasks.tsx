@@ -103,16 +103,14 @@ export function TasksProvider({ children }: TasksProviderProps) {
   }
 
   async function removeTask(taskId: string) {
-    await api.delete(`/tasks/${taskId}`)
-
     const tasksWithoutTaskRemoved = tasks?.filter((task) => task.id !== taskId)
 
     setTasks(tasksWithoutTaskRemoved)
+
+    await api.delete(`/tasks/${taskId}`)
   }
 
   async function updateIsCompletedTask(taskId: string) {
-    await api.patch(`/tasks/${taskId}/completed`, {})
-
     const updatedTaskIsCompleteField = tasks?.map((task) => {
       if (task.id === taskId) {
         return { ...task, is_complete: !task.is_complete }
@@ -122,6 +120,8 @@ export function TasksProvider({ children }: TasksProviderProps) {
     })
 
     setTasks(updatedTaskIsCompleteField)
+
+    await api.patch(`/tasks/${taskId}/completed`, {})
   }
 
   return (
