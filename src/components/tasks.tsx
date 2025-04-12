@@ -1,5 +1,6 @@
 import * as Checkbox from '@radix-ui/react-checkbox'
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
+import { Spinner } from './spinner'
 import { useTasks } from '../hooks/useTasks'
 import { Check, Ellipsis } from 'lucide-react'
 
@@ -9,9 +10,9 @@ export function Tasks() {
 
   if (tasks === undefined) {
     return (
-      <h2 className="font-semibold text-center text-3xl mt-8">
-        Carregando tasks...
-      </h2>
+      <div className="flex justify-center mt-16">
+        <Spinner />
+      </div>
     )
   }
 
