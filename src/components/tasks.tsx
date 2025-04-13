@@ -58,6 +58,7 @@ export function Tasks() {
               <DropdownMenu.Portal>
                 <DropdownMenu.Content
                   sideOffset={5}
+                  align="end"
                   className="min-w-28 bg-white rounded-md p-1"
                 >
                   <DropdownMenu.Item className="outline-none">
@@ -82,8 +83,10 @@ export function Tasks() {
               </DropdownMenu.Portal>
             </DropdownMenu.Root>
           </div>
-          <span className="block bg-yellow-300 text-blue-700 text-xs font-medium rounded-lg w-max px-1 py-0.5 mt-2">
-            {task.task_group ?? 'sem grupo'}
+          <span
+            className={`${task.task_group.length === 0 && 'bg-gray-700 text-gray-400'} block bg-yellow-300 text-blue-700 text-xs font-medium rounded-lg w-max px-1 py-0.5 mt-2`}
+          >
+            {task.task_group.length > 0 ? task.task_group : 'sem grupo'}
           </span>
         </div>
       ))}
