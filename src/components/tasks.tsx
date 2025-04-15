@@ -34,7 +34,7 @@ export function Tasks() {
                 id={task.id}
                 checked={task.is_complete}
                 onCheckedChange={() => updateIsCompletedTask(task.id)}
-                className="bg-white w-6 h-6 flex items-center justify-center rounded-md p-2 hover:bg-blue-700 transition-colors duration-200"
+                className="bg-white w-5 h-5 flex items-center justify-center rounded-md p-2 hover:bg-blue-700 transition-colors duration-200"
               >
                 <Checkbox.Indicator>
                   <Check className="w-5 h-5 text-blue-300" />
@@ -42,7 +42,7 @@ export function Tasks() {
               </Checkbox.Root>
               <label
                 htmlFor={task.id}
-                className={`${task.is_complete ? 'line-through' : ''} text-xl cursor-pointer`}
+                className={`${task.is_complete ? 'line-through' : ''} text-lg cursor-pointer`}
               >
                 {task.title}
               </label>
@@ -50,8 +50,11 @@ export function Tasks() {
 
             <DropdownMenu.Root>
               <DropdownMenu.Trigger asChild>
-                <button type="button">
-                  <Ellipsis className="w-6 h-6 hover:text-gray-400 transition-colors duration-200" />
+                <button
+                  type="button"
+                  className="hover:bg-blue-500 transition-colors duration-200 p-1 rounded-md"
+                >
+                  <Ellipsis className="w-5 h-5" />
                 </button>
               </DropdownMenu.Trigger>
 
@@ -84,7 +87,7 @@ export function Tasks() {
             </DropdownMenu.Root>
           </div>
           <span
-            className={`${task.task_group.length === 0 && 'bg-gray-700 text-gray-400'} block bg-yellow-300 text-blue-700 text-xs font-medium rounded-lg w-max px-1 py-0.5 mt-2`}
+            className={`${task.task_group.length > 0 ? 'bg-yellow-300 text-blue-700' : 'bg-gray-700 text-gray-400'} block text-xs font-medium rounded-lg w-max px-1 py-0.5 mt-2`}
           >
             {task.task_group.length > 0 ? task.task_group : 'sem grupo'}
           </span>
