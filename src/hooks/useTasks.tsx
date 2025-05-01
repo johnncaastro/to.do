@@ -7,6 +7,7 @@ import {
 } from 'react'
 import { api } from '../services/api'
 import { EditTaskModal } from '../components/editTaskModal'
+import { useSearchParams } from 'react-router'
 
 interface Task {
   id: string
@@ -23,7 +24,7 @@ interface TaskFormsInputs {
 
 interface TasksContextData {
   tasks: Task[] | undefined
-  loadTasks(query?: string): Promise<void>
+  loadTasks(): Promise<void>
   createNewTask(data: TaskFormsInputs): Promise<void>
   isOpenEditTaskModal: boolean
   openEditTaskModal(taskId: string): void
@@ -45,22 +46,28 @@ export function TasksProvider({ children }: TasksProviderProps) {
   const [tasks, setTasks] = useState<Task[] | undefined>(undefined)
   const [isOpenEditTaskModal, setIsOpenEditTaskModal] = useState(false)
   const [currentTaskId, setCurrentTaskId] = useState('')
+  const [searchParams] = useSearchParams()
 
-  async function loadTasks(query?: string) {
-    if (query && query.trim() !== '') {
-      const response = await api.get(`/tasks?search=${query}`)
+  const name = searchParams.get('name')
+  const status = searchParams.get('status')
+  const group = searchParams.get('group')
 
-      setTasks(response.data)
-    } else {
-      const response = await api.get('/tasks')
+  async function loadTasks() {
+    const response = await api.get('/tasks', {
+      params: {
+        name,
+        status,
+        group,
+      },
+    })
 
-      setTasks(response.data)
-    }
+    setTasks(response.data)
   }
 
   useEffect(() => {
     loadTasks()
-  }, [])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [name, status, group])
 
   async function createNewTask(data: TaskFormsInputs) {
     // eslint-disable-next-line camelcase

@@ -3,12 +3,13 @@ import * as zod from 'zod'
 import { useTasks } from '../hooks/useTasks'
 import { Select } from './select/select'
 import { SelectItem } from './select/selectItem'
-import { Search } from 'lucide-react'
+import { Search, X } from 'lucide-react'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useSearchParams } from 'react-router'
 
 const filterFormTaskSchema = zod.object({
   name: zod.string(),
-  status: zod.enum(['all', 'finished', 'no-finished']),
+  status: zod.string().optional(),
   group: zod.string(),
 })
 
@@ -16,9 +17,19 @@ type FilterFormProps = zod.infer<typeof filterFormTaskSchema>
 
 export function FilterFormTask() {
   const { tasks } = useTasks()
+  const [searchParams, setSearchParams] = useSearchParams()
 
-  const { handleSubmit, register, control } = useForm<FilterFormProps>({
+  const name = searchParams.get('name')
+  const status = searchParams.get('status')
+  const group = searchParams.get('group')
+
+  const { handleSubmit, register, control, reset } = useForm<FilterFormProps>({
     resolver: zodResolver(filterFormTaskSchema),
+    defaultValues: {
+      name: name ?? '',
+      status: status ?? 'all',
+      group: group ?? '',
+    },
   })
 
   const tasksGroups = tasks
@@ -27,8 +38,52 @@ export function FilterFormTask() {
     })
     .filter((group) => group.length > 0)
 
-  function handleSearchTasksByFilters(data: FilterFormProps) {
-    console.log(data)
+  const tasksGroupsWithUniqueValues = new Set(tasksGroups)
+
+  const tasksGroupsArray = Array.from(tasksGroupsWithUniqueValues)
+
+  function handleSearchTasksByFilters({
+    name,
+    status,
+    group,
+  }: FilterFormProps) {
+    setSearchParams((state) => {
+      if (name) {
+        state.set('name', name)
+      } else {
+        state.delete('name')
+      }
+
+      if (status) {
+        state.set('status', status)
+      } else {
+        state.delete('status')
+      }
+
+      if (group) {
+        state.set('group', group)
+      } else {
+        state.delete('group')
+      }
+
+      return state
+    })
+  }
+
+  function handleClearFilters() {
+    setSearchParams((state) => {
+      state.delete('name')
+      state.delete('status')
+      state.delete('group')
+
+      return state
+    })
+
+    reset({
+      name: '',
+      status: 'all',
+      group: '',
+    })
   }
 
   return (
@@ -76,7 +131,7 @@ export function FilterFormTask() {
               value={value}
               placeholder="Por grupo"
             >
-              {tasksGroups?.map((group) => (
+              {tasksGroupsArray?.map((group) => (
                 <SelectItem key={group} value={group} text={group} />
               ))}
             </Select>
@@ -90,6 +145,15 @@ export function FilterFormTask() {
       >
         <Search className="w-4 h-4" />
         Filtrar resultado
+      </button>
+
+      <button
+        type="button"
+        onClick={handleClearFilters}
+        className="flex items-center gap-2 p-2 rounded-md border-[1px] border-white text-sm hover:bg-gray-700 transition-colors duration-200"
+      >
+        <X className="w-4 h-4" />
+        Remover filtros
       </button>
     </form>
   )
