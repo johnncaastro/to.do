@@ -10,7 +10,7 @@ interface SelectProps extends SelectPrimitive.SelectProps {
 export function Select({ children, placeholder, ...props }: SelectProps) {
   return (
     <SelectPrimitive.Root {...props}>
-      <SelectPrimitive.Trigger className="flex w-40 bg-blue-500 text-sm text-gray-400 items-center justify-between gap-2 rounded-md p-2 outline-none">
+      <SelectPrimitive.Trigger className="flex mobile:max-w-full desktop:max-w-40 bg-blue-500 text-sm text-gray-400 items-center justify-between gap-2 rounded-md p-2 outline-none">
         <SelectPrimitive.Value placeholder={placeholder} />
         <SelectPrimitive.Icon>
           <ChevronDown className="h-4 w-4" />

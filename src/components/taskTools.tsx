@@ -2,9 +2,9 @@ import { useState } from 'react'
 import * as Dialog from '@radix-ui/react-dialog'
 import { useTasks } from '../hooks/useTasks'
 import { NewTaskModal } from './newTaskModal'
-// import { SearchFormTask } from './searchFormTask'
 import { FilterFormTask } from './filterFormTask'
 import { Plus } from 'lucide-react'
+import { FilterTaskFormButton } from './filterTaskFormButton'
 
 export function TaskTools() {
   const { tasks } = useTasks()
@@ -16,14 +16,19 @@ export function TaskTools() {
 
   return (
     <div className="flex items-center justify-between mobile:mb-12 laptop:mb-6">
-      <div className="flex items-center gap-6 mobile:mb-8 laptop:mb-0">
+      <div className="flex items-center gap-6">
         <div className="bg-blue-500 rounded-full px-3 py-1 text-sm">
           {`${tasks?.length ?? 0} 
             ${tasks !== undefined && tasks.length > 1 ? 'tasks' : 'task'}`}
         </div>
-        <FilterFormTask />
+        <div className="mobile:block desktop:hidden">
+          <FilterTaskFormButton />
+        </div>
+        <div className="mobile:hidden desktop:block">
+          <FilterFormTask />
+        </div>
       </div>
-      <div className="flex items-center justify-end gap-2 mobile:h-10">
+      <div className="flex items-center justify-end gap-2">
         <Dialog.Root
           open={isOpenModal}
           onOpenChange={() => setIsOpenModal((state) => !state)}

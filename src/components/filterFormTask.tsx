@@ -15,7 +15,11 @@ const filterFormTaskSchema = zod.object({
 
 type FilterFormProps = zod.infer<typeof filterFormTaskSchema>
 
-export function FilterFormTask() {
+interface FilterFormTaskProps {
+  onCloseModal?(): void
+}
+
+export function FilterFormTask({ onCloseModal }: FilterFormTaskProps) {
   const { tasks } = useTasks()
   const [searchParams, setSearchParams] = useSearchParams()
 
@@ -68,6 +72,10 @@ export function FilterFormTask() {
 
       return state
     })
+
+    if (onCloseModal) {
+      onCloseModal()
+    }
   }
 
   function handleClearFilters() {
@@ -89,15 +97,15 @@ export function FilterFormTask() {
   return (
     <form
       onSubmit={handleSubmit(handleSearchTasksByFilters)}
-      className="flex items-center gap-3"
+      className="flex mobile:flex-col desktop:flex-row mobile:items-stretch desktop:items-center gap-3"
     >
-      <span className="text-sm">Filtros:</span>
+      <span className="text-sm mobile:hidden desktop:inline">Filtros:</span>
 
       <input
         type="text"
         placeholder="Por nome"
         {...register('name')}
-        className="bg-blue-500 p-2 rounded-md max-w-36 text-sm"
+        className="bg-blue-500 p-2 rounded-md mobile:max-w-full desktop:max-w-36 text-sm"
       />
 
       <Controller

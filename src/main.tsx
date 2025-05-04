@@ -5,7 +5,7 @@ import { App } from './App'
 import './styles/global.css'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <div className="max-w-5xl text-white mx-auto px-4 py-10">
+  <div className="max-w-7xl text-white mx-auto mobile:px-2 laptop:px-4 mobile:py-3 laptop:py-10">
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />} />

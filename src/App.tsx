@@ -14,7 +14,7 @@ export function App() {
             className="w-12 h-12 rounded-full"
           />
           <div>
-            <span className="text-gray-400 text-xs">Bom dia,</span>
+            <span className="text-gray-400 text-xs">Olá,</span>
             <p className="text-base font-light">Jonathan Castro</p>
           </div>
         </div>
