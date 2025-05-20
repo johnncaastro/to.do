@@ -1,17 +1,20 @@
 import { BrowserRouter, Route, Routes } from 'react-router'
 import { TasksProvider } from '../hooks/useTasks'
+import { AuthProvider } from '../hooks/useAuth'
 import { SignIn } from '../pages/auth/signIn'
-import { App } from '../App'
+import { Home } from '../pages/home'
 
 export function Router() {
   return (
     <BrowserRouter>
-      <TasksProvider>
-        <Routes>
-          <Route path="/" element={<SignIn />} />
-          <Route path="/home" element={<App />} />
-        </Routes>
-      </TasksProvider>
+      <AuthProvider>
+        <TasksProvider>
+          <Routes>
+            <Route path="/" element={<SignIn />} />
+            <Route path="/home" element={<Home />} />
+          </Routes>
+        </TasksProvider>
+      </AuthProvider>
     </BrowserRouter>
   )
 }

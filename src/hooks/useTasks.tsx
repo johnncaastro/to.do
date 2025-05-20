@@ -6,8 +6,9 @@ import {
   useState,
 } from 'react'
 import { api } from '../services/api'
-import { EditTaskModal } from '../components/editTaskModal'
 import { useSearchParams } from 'react-router'
+import { useAuth } from './useAuth'
+import { EditTaskModal } from '../components/editTaskModal'
 
 interface Task {
   id: string
@@ -46,28 +47,33 @@ export function TasksProvider({ children }: TasksProviderProps) {
   const [tasks, setTasks] = useState<Task[] | undefined>(undefined)
   const [isOpenEditTaskModal, setIsOpenEditTaskModal] = useState(false)
   const [currentTaskId, setCurrentTaskId] = useState('')
+
   const [searchParams] = useSearchParams()
+
+  const { user } = useAuth()
 
   const name = searchParams.get('name')
   const status = searchParams.get('status')
   const group = searchParams.get('group')
 
   async function loadTasks() {
-    const response = await api.get('/tasks', {
-      params: {
-        name,
-        status,
-        group,
-      },
-    })
+    if (user) {
+      const response = await api.get(`/tasks/${user.email}`, {
+        params: {
+          name,
+          status,
+          group,
+        },
+      })
 
-    setTasks(response.data)
+      setTasks(response.data)
+    }
   }
 
   useEffect(() => {
     loadTasks()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [name, status, group])
+  }, [name, status, group, user])
 
   async function createNewTask(data: TaskFormsInputs) {
     // eslint-disable-next-line camelcase
@@ -77,6 +83,7 @@ export function TasksProvider({ children }: TasksProviderProps) {
       title,
       // eslint-disable-next-line camelcase
       task_group,
+      userEmail: user?.email,
     })
 
     await loadTasks()
@@ -127,6 +134,8 @@ export function TasksProvider({ children }: TasksProviderProps) {
     })
 
     setTasks(updatedTaskIsCompleteField)
+
+    console.log(taskId)
 
     await api.patch(`/tasks/${taskId}/completed`, {})
   }

@@ -2,8 +2,22 @@
 import heroImg from '/hero-sign-in.svg'
 import googleIcon from '/google.png'
 import githubIcon from '/github.svg'
+import { useAuth } from '../../hooks/useAuth'
+import { useNavigate } from 'react-router'
 
 export function SignIn() {
+  const { signInWithGoogle, user } = useAuth()
+
+  const navigate = useNavigate()
+
+  function handleSignInWithGoogle() {
+    if (!user) {
+      signInWithGoogle()
+    } else {
+      navigate('/home')
+    }
+  }
+
   return (
     <div className="flex w-screen h-screen">
       <div className="flex-1 flex flex-col items-center justify-center gap-12 bg-blue-300">
@@ -21,6 +35,7 @@ export function SignIn() {
         <h1 className="text-3xl font-semibold">Bem vindo!</h1>
         <button
           type="button"
+          onClick={handleSignInWithGoogle}
           className="w-48 flex items-center gap-4 border border-black rounded-md px-2 py-2 text-sm hover:bg-blue-100 transition-colors duration-200"
         >
           <img src={googleIcon} alt="Ícone do google" className="w-5 h-5" />
