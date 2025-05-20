@@ -19,14 +19,14 @@ export function SignIn() {
 
   return (
     <div className="flex w-screen h-screen">
-      <div className="flex-1 flex flex-col items-center justify-center gap-12 bg-blue-300">
+      <div className="flex-1 laptop:flex flex-col items-center justify-center gap-12 bg-blue-300 px-2 mobile:hidden">
         <h1 className="uppercase text-blue-700 font-bold text-4xl">to do</h1>
         <img
           src={heroImg}
           alt="garota ao lado de um enorme papel com uma lista de tarefas"
-          className="max-w-xl"
+          className="desktop:max-w-xl laptop-large:max-w-md"
         />
-        <p className="text-white text-lg">
+        <p className="text-white text-lg text-center">
           Gerencie suas tarefas com facilidade. Simples, rápido e eficaz.
         </p>
       </div>
