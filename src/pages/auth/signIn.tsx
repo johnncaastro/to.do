@@ -1,7 +1,6 @@
 /* eslint-disable import/no-absolute-path */
 import heroImg from '/hero-sign-in.svg'
 import googleIcon from '/google.png'
-import githubIcon from '/github.svg'
 import { useAuth } from '../../hooks/useAuth'
 import { useNavigate } from 'react-router'
 
@@ -41,13 +40,13 @@ export function SignIn() {
           <img src={googleIcon} alt="Ícone do google" className="w-5 h-5" />
           Login com Google
         </button>
-        <button
+        {/* <button
           type="button"
           className="w-48 flex items-center gap-4 border border-black rounded-md px-2 py-2 text-sm hover:bg-blue-100 transition-colors duration-200"
         >
           <img src={githubIcon} alt="Ícone do github" className="w-5 h-5" />
           Login com Github
-        </button>
+        </button> */}
       </div>
     </div>
   )
