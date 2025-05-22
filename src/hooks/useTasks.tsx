@@ -135,8 +135,6 @@ export function TasksProvider({ children }: TasksProviderProps) {
 
     setTasks(updatedTaskIsCompleteField)
 
-    console.log(taskId)
-
     await api.patch(`/tasks/${taskId}/completed`, {})
   }
 
