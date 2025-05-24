@@ -21,8 +21,12 @@ Este projeto foi desenvolvido com as seguintes tecnologias:
 - [Vite](https://vite.dev/)
 - [Radix UI](https://www.radix-ui.com/)
 - [Axios](https://axios-http.com/ptbr/)
-- [tailwindcss](https://tailwindcss.com/)
-- [Lucide-react](https://lucide.dev/)
+- [Firebase](https://firebase.google.com/)
+- [Tailwindcss](https://tailwindcss.com/)
+- [react-hook-form](https://react-hook-form.com/)
+- [react-router](https://reactrouter.com/)
+- [Zod](https://zod.dev/)
+- [lucide-react](https://lucide.dev/)
 
 ## 👷 Instalação
 
@@ -46,5 +50,5 @@ Esse projeto está sob a licença MIT. Veja o arquivo [LICENSE](https://github.c
 
 ---
 
-Feito com ♥ por Johnn Castro :wave: [Entre em contato!](https://www.linkedin.com/in/johnncaastro/)
+Feito com ♥ por John Castro :wave: [Entre em contato!](https://www.linkedin.com/in/johnncaastro/)
 
