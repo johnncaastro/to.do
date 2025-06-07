@@ -25,7 +25,7 @@
 [![GitHub license](https://badgen.net/github/license/Naereen/Strapdown.js)](https://github.com/Naereen/StrapDown.js/blob/master/LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
-<h2>💻 Tecnologias</h2>
+<h2 id="tech">💻 Tecnologias</h2>
 
 Este projeto foi desenvolvido com as seguintes tecnologias:
 
@@ -41,7 +41,7 @@ Este projeto foi desenvolvido com as seguintes tecnologias:
 - [Zod](https://zod.dev/)
 - [lucide-react](https://lucide.dev/)
 
-<h2>👷 Instalação</h2>
+<h2 id="installation">👷 Instalação</h2>
 
 <h3>Pré-requisitos</h3>
 
@@ -67,7 +67,7 @@ Ainda no terminal, execute o comando abaixo para instalar as dependências neces
 
 Acesse o site do [Firebase](https://firebase.google.com/?hl=pt-br) e crie uma conta. Depois, acesse a área [console](https://console.firebase.google.com/?hl=pt-br), crie um projeto e adicione um app web nele. Em seguida, entre na funcionalidade Authentication e ative o método de login com Google. Não esqueça de adicionar o domínio do seu app em domínios autorizados dentro de configurações. Por último, no menu lateral, clique na engrenagem ao lado de visão geral do projeto e depois em configurações do projeto. Em seguida, role a página central para baixo até visualizar as configurações do projeto dentro da variável firebaseConfig. Copie os dados, volte ao projeto To.Do e faça a substituição no arquivo firebase.ts dentro da pasta services. Não esqueça de salvar as alterações realizadas no projeto.
 
-<h2>🏃 Começando</h2>
+<h2 id="starting">🏃 Começando</h2>
 
 Em seguida insira o comando abaixo no terminal para iniciar a aplicação:
 
